@@ -81,7 +81,7 @@ plt.show()
 #  With BatchNormalization
 '''
 model = keras.Sequential([
-    layers.BatchNormalization(input_shape=input_shape),  # Normalize input features
+    layers.BatchNormalization(input_shape=in:put_shape),  # Normalize input features
     layers.Dense(512, activation='relu'),               # First dense layer with ReLU activation
     layers.BatchNormalization(),                        # Normalize outputs of the first dense layer
     layers.Dense(512, activation='relu'),               # Second dense layer with ReLU activation
