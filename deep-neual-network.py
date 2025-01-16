@@ -12,7 +12,9 @@ import matplotlib.pyplot as plt
 # This approach simplifies model creation by stacking layers sequentially.
 model = keras.Sequential([
     layers.Dense(units=512, activation='relu', input_shape=[8]),  # Input layer with 8 features
+    layers.Drouput(rate=0.3),
     layers.Dense(units=512, activation='relu'),  # First hidden layer with ReLU activation
+    layers.Droupout(rate=0.3),
     layers.Dense(units=512, activation='relu'),  # Second hidden layer with ReLU activation
     layers.Dense(units=1)  # Output layer with 1 unit (no activation for regression tasks)
 ])
@@ -75,4 +77,37 @@ print(f'Minimum validation loss: {history_df['val_loss'].min()}')
 plt.xlabel("Epochs")  # Optional: Label for x-axis
 plt.ylabel("Loss")    # Optional: Label for y-axis
 plt.show()
+
+#  With BatchNormalization
+'''
+model = keras.Sequential([
+    layers.BatchNormalization(input_shape=input_shape),  # Normalize input features
+    layers.Dense(512, activation='relu'),               # First dense layer with ReLU activation
+    layers.BatchNormalization(),                        # Normalize outputs of the first dense layer
+    layers.Dense(512, activation='relu'),               # Second dense layer with ReLU activation
+    layers.BatchNormalization(),                        # Normalize outputs of the second dense layer
+    layers.Dense(512, activation='relu'),               # Third dense layer with ReLU activation
+    layers.BatchNormalization(),                        # Normalize outputs of the third dense layer
+    layers.Dense(1),                                    # Output layer for regression (single value output)
+])
+'''
+
+
+# Split the data into training and validation sets
+'''
+df_train = df.sample(frac=0.7, random_state=0)  # 70% of the data for training
+df_valid = df.drop(df_train.index)  # Remaining 30% for validation
+
+# Separate features (X) and target (y) for training and validation
+X_train = df_train.drop('CompressiveStrength', axis=1)  # Features for training
+X_valid = df_valid.drop('CompressiveStrength', axis=1)  # Features for validation
+y_train = df_train['CompressiveStrength']  # Target for training
+y_valid = df_valid['CompressiveStrength']  # Target for validation
+
+# Determine the input shape for a neural network model
+input_shape = [X_train.shape[1]]  # Number of features as input shape for the model
+
+'''
+
+
 
